@@ -1,0 +1,306 @@
+body {
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;
+    background-color: rgb(255, 255, 255);
+    padding: 0px;
+    height: auto;
+    margin: 0px;
+}
+
+main {
+    width: 75%;
+    margin: auto;
+    align-items: center;
+    margin-top: 150px;
+    margin-bottom: 50px;
+}
+
+.myforms {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 40px;
+}
+
+
+button {
+    display: flex;
+    background-color: #2ca02c;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding:40px;
+    justify-content: space-around;
+    width: 70%;
+    margin: auto;
+    gap: 10px;
+
+    
+}
+
+.finalize {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+
+    
+}
+
+header {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    background-color: #e3e3e3; /* Light grey background */
+    border-bottom: 2px solid #000000; /* Black bottom border */
+    padding: 20px 0; /* Padding above and below the text */
+    text-align: center; /* Center-align the text */
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+}
+
+header h1 {
+    font-size: 3.5em; /* Larger font size */
+    font-weight: bold; /* Bold font weight */
+    color: #000000; /* Black text color */
+    margin: 0;
+}
+
+header h2 {
+    font-size: 2em; /* Larger font size */
+    font-weight: bold; /* Bold font weight */
+    color: #000000; /* Black text color */
+    margin: 0;
+}
+
+.headercon {
+    width: 20%;
+    align-content: center;
+}
+
+
+
+a {
+    text-decoration: none;
+}
+
+h1 {
+    margin: 0;
+}
+
+h2 {
+    color: #333;
+    margin: 0;
+    font-size: 2rem;
+}
+
+h3 {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+img {
+    display: block; /* Images are inline by default */
+    margin: 0; /* 'auto' value for left and right margins centers the block-level element */
+}
+
+table {
+    width: 100%; /* Make table use the full width of its container */
+    border-collapse: collapse; /* Collapses the border lines between cells */
+}
+
+th, td {
+    border: 1px solid #ddd; /* Adds a light border to the table header and cells */
+    text-align: left; /* Aligns text to the left; change to 'center' if you prefer */
+    padding: 8px; /* Adds padding inside the cells for better readability */
+    font-size: large;
+}
+
+th {
+    background-color: #f8f9fa; /* Light grey background for the table headers */
+    color: #333; /* Color for the text in the headers */
+}
+
+footer {
+    text-align: center;
+    background-color: #eaeaea;
+    color: #333;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.add {
+    border-radius: 5px;
+    font-size: 25px;
+    background-color: #2ca02c;
+    color: white;
+    border-style: solid;
+    
+}
+
+
+.save {
+
+    border-radius: 5px;
+    background-color: #066fba;
+    color: white;
+    font-size: 30px;
+}
+
+.remove {
+
+    border-radius: 5px;
+    background-color: #c70d00;
+    color: white;
+    font-size: 30px;
+
+    
+}
+
+.outline {
+    border-style: dashed;
+    border-radius: 15px;
+    padding: 20px 0px;
+    justify-content: center;
+    display: flex;
+    margin-bottom: 30px;
+    width: 100%;
+    flex-direction: row;
+
+}
+
+#title {
+    width:100%;
+    font-size: larger;
+    padding: 10px;
+    background-color: #eaeaea;
+    margin-bottom: 40px;
+    border-style: solid;
+    border-width: 0px 0px 2px 0px;
+
+}
+
+#description {
+    width: 100%;
+    font-size: large;
+    resize: none;
+    padding: 10px;
+    background-color: #eaeaea;
+    border-style: solid;
+    border-width: 0px 0px 2px 0px;
+    margin-bottom: 40px;
+
+}
+
+.card {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 30px;
+    margin: auto;
+    transition: background-color 0.5s ease;
+
+    
+}
+
+.card:hover {
+    background-color: #b0b0b0;
+}
+
+.status {
+    display: flex; 
+    flex-direction: row; 
+    gap: 10px; 
+    width: 20%;
+
+    
+}
+
+.sum {
+    display: flex; 
+    width: 50%; 
+    justify-content: space-around; 
+    background-color: #cccfcd; 
+    padding: 20px; 
+    border-style: solid; 
+    border-radius: 5px;
+}
+
+
+.qrblock {
+    align-items: start; 
+    display: flex;
+    width: 100%; 
+    justify-content: space-between; 
+    align-content: center; 
+    margin-bottom: 40px;
+
+}
+
+.headtext {
+    width: 70%;
+}
+
+.line {
+    display: flex; 
+    flex-direction: row; 
+    justify-content: center; 
+    width: 100%; 
+    margin-bottom: 50px;
+}
+
+.option {
+    background-color: #cccfcd; 
+    display: flex; 
+    flex-direction: row; 
+    width: 100%; 
+    justify-content: space-between; 
+    padding: 10px 10px 10px 20px; 
+    border-width: 2px 0px; 
+    border-style: solid;
+}
+
+
+.option:hover {
+    background-color: #b0b0b0;
+}
+@media (max-width: 1550px) {
+    .status { 
+        display: none; 
+    }
+
+    main {
+        width: 100%;
+    }
+  }
+
+@media (max-width: 450px) {
+    .sum { 
+        width: 75%; 
+    }
+
+    .qrblock {
+        flex-direction: column;
+    }
+
+    main {
+        width: 90%;
+    }
+
+    .headtext {
+        width: 10%;
+    }
+
+    h3 {
+        font-size: 3em;
+    }
+}
