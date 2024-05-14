@@ -3,7 +3,6 @@ import React from "react";
 import { useState } from "react";
 import { login, signup } from "./actions";
 import toast from "react-hot-toast";
-import { CircularProgress } from "@nextui-org/progress";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -59,8 +58,6 @@ export default function LoginPage() {
         Sign Up
       </button>
       </div>
-
-      <CircularProgress></CircularProgress>
     </div>
   );
 }
