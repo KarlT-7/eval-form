@@ -10,13 +10,13 @@ type FormType = Database["public"]["Tables"]["forms"]["Row"];
 type QuestionType = Database["public"]["Tables"]["questions"]["Row"];
 
 export default function EditPage({ params }: any) {
-  const [title, setTitle] = useState<String | null>("");
-  const [desc, setDesc] = useState<String | null>("");
+  const [title, setTitle] = useState<any>("");
+  const [desc, setDesc] = useState<any>("");
   const [status, setStatus] = useState<String | null>("");
   const [questions, setQuestions] = useState<Array<QuestionType> | null>([]);
   const [loading, setLoading] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState<QuestionType>();
-  const [newContent, setNewContent] = useState(currentQuestion?.content);
+  const [newContent, setNewContent] = useState<any>(currentQuestion?.content);
   const [type, setType] = useState(currentQuestion?.type);
   const { id } = params;
 

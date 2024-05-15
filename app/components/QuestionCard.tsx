@@ -5,7 +5,7 @@ import { getFormInfo } from "../edit/[id]/actions";
 
 interface QuestionCardProps {
   id: String;
-  content: String | null;
+  content: any;
   type: String | null;
   onClick: () => void;
 }
