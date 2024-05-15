@@ -1,11 +1,11 @@
-'use server'
+"use server";
 import { createClient } from "@/utils/supabase/server";
+import { v4 } from "uuid";
 
 interface NewForm {
-    title: String;
-    desc: String;
-    status: String;
-
+  title: String;
+  desc: String;
+  status: String;
 }
 
 export async function getForms() {
@@ -16,16 +16,27 @@ export async function getForms() {
     .select("*")
     .eq("user_id", user.data.user?.id);
 
-    return res
+  return res;
 }
 
-export async function createForm(title: String, description: String , status: String) {
-    const supabase = createClient();
-    const user = await supabase.auth.getUser();
-    const id = user.data.user?.id
-    const res = await supabase.from('forms').insert({'user_id': id, title, description, status})
+export async function createForm(
+  title: String,
+  description: String,
+  status: String
+) {
+  const supabase = createClient();
+  const user = await supabase.auth.getUser();
+  const user_id = user.data.user?.id;
+  const id = v4();
+  const res = await supabase
+    .from("forms")
+    .insert({ id: id, user_id: user_id, title, description, status });
+    
+  return res;
+}
 
-    console.log(res)
-
-    return res
+export async function deleteForm(id: String) {
+  const supabase = createClient();
+  const res = await supabase.from("forms").delete().eq("id", id);
+  return res;
 }

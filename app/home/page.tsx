@@ -1,10 +1,14 @@
-"use client";
-
 import Image from "next/image";
 
 import Navbar from "../components/Navbar";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { createClient } from "@/utils/supabase/server";
 
-export default function EditForm() {
+export default async function HomePage() {
+
+  
+
   return (
     <div className="font-sans bg-white p-0 min-h-full m-0 w-full justify-between">
       <Navbar page="home"></Navbar>

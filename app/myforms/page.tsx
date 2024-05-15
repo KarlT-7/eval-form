@@ -2,22 +2,49 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import FormSummaryCard from "../components/FormSummaryCard";
-import { createForm, getForms } from "./actions";
+import { createForm, deleteForm, getForms } from "./actions";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { redirect, useRouter } from "next/navigation";
 
-export default function EditForm() {
+
+export default function MyForms() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [forms, setForms] = useState<Array<any> | null>([]);
   const [open, setOpen] = useState(false);
+  const router = useRouter();
+
+  const handleDelete = async (id: String) => {
+    const res = await deleteForm(id);
+
+    if (res.error) {
+      toast.error("There was a problem deleting this form.");
+    } else {
+      if (forms) {
+        setForms(forms.filter((form) => form.id != id));
+      }
+      toast.success("Form successfully deleted.");
+    }
+  };
+
+  const handleCreate = async () => {
+    const res = await createForm(title, description, status);
+    
+    if (res.error) {
+      console.log(res.error.message)
+      toast.error("There was a problem creating this form.");
+    } else if(res.status == 201) {
+      //forms?.push(res.data);
+      router.refresh();
+    }
+    
+  };
 
   const handleClickOpen = () => {
     setStatus("");
@@ -81,6 +108,9 @@ export default function EditForm() {
               id={form.id}
               name={form.title}
               status={form.status}
+              onClick={async () => {
+                handleDelete(form.id);
+              }}
             ></FormSummaryCard>
           ))}
 
@@ -146,14 +176,7 @@ export default function EditForm() {
             </Button>
             <Button
               onClick={async () => {
-                const res = await createForm(title, description, status);
-
-                if (res.error) {
-                  toast.error("There was a problem creating this form.");
-                } else {
-                  toast.success("Form successfully created.");
-                }
-
+                await handleCreate();
                 handleClose();
               }}
               className="text-xl font-bold text-[#2ca02c]"
@@ -163,49 +186,6 @@ export default function EditForm() {
             </Button>
           </DialogActions>
         </Dialog>
-
-        {/* <div className="flex-col w-1/3">
-          <div className="items-start">
-            <h2 className="self-start">Form Title:</h2>
-            <input
-              className="w-full text-l p-5 bg-white mb-20 border-solid border-2"
-              type="text"
-              placeholder="Put your title here."
-            />
-          </div>
-          <h2>Form Description:</h2>
-
-          <textarea
-            className="w-full text-l p-5 bg-white border-solid border-2 mb-20"
-            rows={8}
-            placeholder="Put your title here."
-          ></textarea>
-
-          <h2>Questions:</h2>
-
-          <div className="border-dashed rounded py-10 justify center flex flex-row mb-15 w-full">
-            <input
-              type="button"
-              value="Add a Question"
-              className="border-solid border-4 text-[25px] bg-green text-white"
-            />
-          </div>
-
-          <div className="flex flex-row justify-around w-full">
-            <input
-              className="border-4 bg-red-500 text-white text-30"
-              type="button"
-              value="Clear"
-            />
-            <input
-              className="border-4 bg-blue-500 text-white text-30"
-              type="button"
-              value="Save"
-            />
-          </div>
-        </div> */}
-
-        {/* <div className="flex-col w-2/3"></div> */}
       </div>
     </div>
   );

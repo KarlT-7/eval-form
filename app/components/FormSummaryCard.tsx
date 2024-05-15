@@ -1,5 +1,5 @@
 "use client";
-import { deleteForm, getEvals } from "./actions";
+import { getEvals } from "./actions";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -15,15 +15,16 @@ interface FormSummaryCardProps {
   id: String;
   name: String;
   status: String;
+  onClick: () => void;
 }
 
 export default function FormSummaryCard({
   id,
   name,
   status,
+  onClick,
 }: FormSummaryCardProps) {
-
-  const router = useRouter()
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [evals, setEvals] = useState(0);
 
@@ -81,7 +82,7 @@ export default function FormSummaryCard({
           type="button"
           value="Edit"
           onClick={() => {
-            router.push(`${id}`);
+            router.push(`./edit/${id}`);
           }}
         />
         <input
@@ -113,13 +114,7 @@ export default function FormSummaryCard({
           </Button>
           <Button
             onClick={async () => {
-              const res = await deleteForm(id);
-
-              if (res.error) {
-                toast.error("There was a problem deleting this form.");
-              } else {
-                router.refresh()
-              }
+              onClick();
 
               handleClose();
             }}
