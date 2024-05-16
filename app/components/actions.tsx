@@ -94,9 +94,11 @@ export async function deleteForm(id: String) {
   return res;
 }
 
+
+
 export async function getFormInfo(id: String): Promise<FormType> {
   const supabase = createClient();
-  const { data, error } = await supabase
+  const { data } = await supabase
     .from("forms")
     .select("*")
     .eq("id", id)
