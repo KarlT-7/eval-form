@@ -1,17 +1,25 @@
 "use client";
 import Navbar from "@/app/components/Navbar";
 import { useEffect, useState } from "react";
-import { addQuestion, getFormInfo, getQuestions, updateTitle } from "./actions";
+import {
+  addQuestion,
+  fetchOptions,
+  getFormInfo,
+  getQuestions,
+  updateTitle,
+} from "./actions";
 import QuestionCard from "@/app/components/QuestionCard";
 import { Database } from "@/types/supabase";
 import toast from "react-hot-toast";
 
 type FormType = Database["public"]["Tables"]["forms"]["Row"];
 type QuestionType = Database["public"]["Tables"]["questions"]["Row"];
+type OptionType = Database["public"]["Tables"]["options"]["Row"];
 
 export default function EditPage({ params }: any) {
   const [title, setTitle] = useState<any>("");
   const [desc, setDesc] = useState<any>("");
+  const [currentOptions, setCurrentOptions] = useState<Array<OptionType>>();
   const [status, setStatus] = useState<String | null>("");
   const [questions, setQuestions] = useState<Array<QuestionType> | null>([]);
   const [loading, setLoading] = useState(false);
@@ -43,17 +51,27 @@ export default function EditPage({ params }: any) {
     }
   };
 
+  const getOptions = async (id: String) => {
+    const res = await fetchOptions(id);
+
+    if (res.error) {
+      toast.error("There was an issue fetching options.");
+    } else if (res.data.length != 0) {
+      console.log(res.data);
+      setCurrentOptions(res.data);
+    }
+  };
+
   const handleTitleUpdate = async (id: String, title: String) => {
     const res = await updateTitle(id, title);
 
     if (res.error) {
-        console.log(res.error)
-        toast.error('Error saving title.')
+      console.log(res.error);
+      toast.error("Error saving title.");
     } else {
-        toast.success('Title saved.')
+      toast.success("Title saved.");
     }
-
-  }
+  };
 
   return (
     <div>
@@ -68,7 +86,12 @@ export default function EditPage({ params }: any) {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
-              <input className="p-2 rounded-r border-black border-solid border-1 bg-[#066fba] font-bold text-l text-white" type="button" value="Save" onClick={() => handleTitleUpdate(id, title)}/>
+              <input
+                className="p-2 rounded-r border-black border-solid border-1 bg-[#066fba] font-bold text-l text-white"
+                type="button"
+                value="Save"
+                onClick={() => handleTitleUpdate(id, title)}
+              />
             </div>
 
             <textarea
@@ -117,6 +140,7 @@ export default function EditPage({ params }: any) {
                       setCurrentQuestion(question);
                       setNewContent(question.content);
                       setType(question.type);
+                      getOptions(question.id);
                     }}
                   ></QuestionCard>
                 </div>
@@ -181,6 +205,13 @@ export default function EditPage({ params }: any) {
                     }}
                   />
                 </div>
+              </div>
+            )}
+            {type != "text" && (
+              <div>
+                {currentOptions?.map((option) => (
+                  <div key={option.id}>{option.option_value}</div>
+                ))}
               </div>
             )}
             {!currentQuestion && (

@@ -1,5 +1,9 @@
 "use server";
+import { Database } from "@/types/supabase";
 import { createClient } from "@/utils/supabase/server";
+import { v4 as uuidv4 } from "uuid";
+
+type FormType = Database["public"]["Tables"]["forms"]["Row"];
 
 interface NewForm {
   title: String;
@@ -26,10 +30,11 @@ export async function createForm(
   const supabase = createClient();
   const user = await supabase.auth.getUser();
   const user_id = user.data.user?.id;
+  const id = uuidv4();
   const res = await supabase
     .from("forms")
-    .insert({ user_id: user_id, title, description, status });
-
+    .insert({ id: id, user_id: user_id, title, description, status })
+    .select();
   return res;
 }
 

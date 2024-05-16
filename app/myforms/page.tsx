@@ -8,17 +8,19 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import toast from "react-hot-toast";
-import { redirect, useRouter } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
+import { Database } from "@/types/supabase";
 
+
+type FormType = Database["public"]["Tables"]["forms"]["Row"];
 
 export default function MyForms() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [forms, setForms] = useState<Array<any> | null>([]);
+  const [forms, setForms] = useState<Array<any>>([]);
   const [open, setOpen] = useState(false);
-  const router = useRouter();
 
   const handleDelete = async (id: String) => {
     const res = await deleteForm(id);
@@ -35,13 +37,13 @@ export default function MyForms() {
 
   const handleCreate = async () => {
     const res = await createForm(title, description, status);
+    console.log(window.location.host);
     
     if (res.error) {
       console.log(res.error.message)
       toast.error("There was a problem creating this form.");
-    } else if(res.status == 201) {
-      //forms?.push(res.data);
-      router.refresh();
+    } else if (res.data) {
+      setForms(forms.concat(res.data));
     }
     
   };
