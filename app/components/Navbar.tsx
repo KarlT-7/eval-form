@@ -2,12 +2,14 @@
 import { useEffect, useState } from "react";
 import { checkAdmin, signOut } from "./actions";
 import toast from "react-hot-toast";
+import { redirect, useRouter } from "next/navigation";
 
 interface PageProps {
   page: string;
 }
 
 export default function Navbar({ page }: PageProps) {
+  const router = useRouter()
   const [userRole, setUserRole] = useState<string | null>(null);
 
   const handleSignOut = async () => {
@@ -56,9 +58,7 @@ export default function Navbar({ page }: PageProps) {
 
       <div className="flex flex-row w-1/4 align-center content-center gap-5">
         {userRole === "admin" && (
-          <a href="./admin" className="content-center">
-            <h1 className="text-[1.5em] font-bold text-[#066fba]">Admin</h1>
-          </a>
+          <input type='button' className="text-[1.5em] font-bold text-[#066fba]" onClick={() => {router.push('../admin')}} value="Admin"/>
         )}
         <input
           type="button"

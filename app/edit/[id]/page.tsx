@@ -13,7 +13,6 @@ export default async function EditPage({
   params: { id: string };
 }) {
 
-  console.log(id)
   const supabase = createClient();
   const user = await supabase.auth.getUser();
 

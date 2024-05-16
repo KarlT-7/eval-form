@@ -13,15 +13,13 @@ import { Database } from "@/types/supabase";
 import { useQRCode } from 'next-qrcode';
 
 
-type FormType = Database["public"]["Tables"]["forms"]["Row"];
-
 export default function MyForms(myForms: any) {
   console.log(myForms);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [forms, setForms] = useState<Array<any>>([]);
+  const [forms, setForms] = useState<Array<any>>(myForms.MyForms);
   const [open, setOpen] = useState(false);
 
   const { Canvas } = useQRCode();
@@ -63,35 +61,21 @@ export default function MyForms(myForms: any) {
     setOpen(false);
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      const fetchForms = await getForms();
-      if (fetchForms.data) {
-        setForms(fetchForms.data);
-      }
-      setIsLoading(false);
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     setIsLoading(true);
+  //     const fetchForms = await getForms();
+  //     if (fetchForms.data) {
+  //       setForms(fetchForms.data);
+  //     }
+  //     setIsLoading(false);
+  //   };
+  //   fetchData();
+  // }, []);
 
   return (
     <div className="font-sans bg-white p-0 min-h-full m-0 w-full justify-between">
       <Navbar page="forms"></Navbar>
-
-      <Canvas
-      text={'https://github.com/bunlong/next-qrcode'}
-      options={{
-        errorCorrectionLevel: 'M',
-        margin: 3,
-        scale: 4,
-        width: 200,
-        color: {
-          dark: '#010599FF',
-          light: '#FFBF60FF',
-        },
-      }}
-    />
 
       <div className="flex flex-col justify-center m-auto items-center p-20 w-3/4 gap-4">
         {isLoading && (

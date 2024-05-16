@@ -30,8 +30,6 @@ export default function EditPageComponent({
   form,
   questionData,
 }: EditPageComponentProps) {
-  console.log(form);
-  console.log(questionData);
   const [title, setTitle] = useState(form.title);
   const [desc, setDesc] = useState(form.description);
   const [currentOptions, setCurrentOptions] = useState<Array<any>>();

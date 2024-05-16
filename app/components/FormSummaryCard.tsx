@@ -12,9 +12,9 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 interface FormSummaryCardProps {
-  id: String;
-  name: String;
-  status: String;
+  id: string;
+  name: string;
+  status: string;
   onClick: () => void;
 }
 
@@ -53,7 +53,14 @@ export default function FormSummaryCard({
     transition duration-300 ease-in-out"
     >
       <div className="w-1/5">
-        <h1 className="text-xl font-bold">{name}</h1>
+        <input
+          className="text-xl font-bold"
+          type="button"
+          value={name}
+          onClick={() => {
+            router.push(`./myforms/${id}`);
+          }}
+        />
       </div>
       <div className="w-1/5 gap-4 flex flex row">
         <h1 className="text-xl font-bold">Status:</h1>
