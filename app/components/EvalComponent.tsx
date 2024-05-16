@@ -33,7 +33,7 @@ export function EvalComponent({ form, questionData }: EditPageComponentProps) {
   };
   return (
     <div className="flex w-full justify-center items-center p-6">
-      <div className="flex flex-col w-1/3 justify-center items-center m-auto gap-6">
+      <div className="flex flex-col w-1/3 justify-center items-center m-auto gap-6 max-[850px]:w-full">
         <input
           type="text"
           className="w-full text-xl p-2 bg-white border-solid border-2 rounded"
