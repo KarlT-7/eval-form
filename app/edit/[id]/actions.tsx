@@ -3,6 +3,7 @@ import { createClient } from "@/utils/supabase/server";
 import { Database } from "@/types/supabase";
 
 type FormType = Database["public"]["Tables"]["forms"]["Row"];
+type QuestionType = Database["public"]["Tables"]["questions"]["Row"];
 type OptionType = Database["public"]["Tables"]["options"]["Row"];
 
 export async function getFormInfo(id: String): Promise<FormType> {
@@ -26,7 +27,7 @@ export async function changeStatus(id: string, status: string) {
   return stat;
 }
 
-export async function getQuestions(id: String) {
+export async function getQuestions(id: String): Promise<any>{
   const supabase = createClient();
 
   const questions = await supabase
@@ -34,7 +35,7 @@ export async function getQuestions(id: String) {
     .select("*")
     .eq("form_id", id);
 
-  return questions;
+  return questions.data;
 }
 
 export async function addQuestion(id: string) {

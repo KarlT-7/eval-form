@@ -15,7 +15,8 @@ import { useQRCode } from 'next-qrcode';
 
 type FormType = Database["public"]["Tables"]["forms"]["Row"];
 
-export default function MyForms() {
+export default function MyForms(myForms: any) {
+  console.log(myForms);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("");
