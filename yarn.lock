@@ -1012,6 +1012,13 @@
     "@swc/counter" "^0.1.3"
     tslib "^2.4.0"
 
+"@types/json2csv@^5.0.7":
+  version "5.0.7"
+  resolved "https://registry.npmjs.org/@types/json2csv/-/json2csv-5.0.7.tgz"
+  integrity sha512-Ma25zw9G9GEBnX8b12R4EYvnFT6dBh8L3jwsN5EUFXa+fl2dqmbLDbNWN0XuQU3rSXdsbBeCYjI9uHU2PUBxhA==
+  dependencies:
+    "@types/node" "*"
+
 "@types/json5@^0.0.29":
   version "0.0.29"
   resolved "https://registry.npmjs.org/@types/json5/-/json5-0.0.29.tgz"
