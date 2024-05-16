@@ -7,7 +7,12 @@ import { createClient } from "@/utils/supabase/server";
 
 export default async function HomePage() {
 
-  
+  const supabase = createClient()
+  const user = await supabase.auth.getUser()
+
+  if(!user.data.user){
+    redirect('./login')
+  } 
 
   return (
     <div className="font-sans bg-white p-0 min-h-full m-0 w-full justify-between">

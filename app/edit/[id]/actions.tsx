@@ -16,6 +16,16 @@ export async function getFormInfo(id: String): Promise<FormType> {
   return data;
 }
 
+export async function changeStatus(id: string, status: string) {
+  const supabase = createClient();
+  const stat = await supabase
+    .from("forms")
+    .update({status: status})
+    .eq("id", id);
+
+  return stat;
+}
+
 export async function getQuestions(id: String) {
   const supabase = createClient();
 
@@ -27,12 +37,13 @@ export async function getQuestions(id: String) {
   return questions;
 }
 
-export async function addQuestion(content: String) {
+export async function addQuestion(id: string) {
   const supabase = createClient();
 
   const question = await supabase
     .from("questions")
-    .insert({ content: content });
+    .insert({ content: "[no question content]", form_id: id, type: "fixed" })
+    .select();
 
   return question;
 }
@@ -48,6 +59,17 @@ export async function updateTitle(id: String, title: String) {
   return update;
 }
 
+export async function updateContent(id: String, content: string | null) {
+  const supabase = createClient();
+
+  const update = await supabase
+    .from("questions")
+    .update({ content: content })
+    .eq("id", id);
+
+  return update;
+}
+
 export async function fetchOptions(question_id: String) {
   const supabase = createClient();
   const options = await supabase
@@ -56,4 +78,25 @@ export async function fetchOptions(question_id: String) {
     .eq("question_id", question_id);
 
   return options;
+}
+
+export async function addOption(question_id: String) {
+  const supabase = createClient();
+
+  const option = await supabase
+    .from("options")
+    .insert({ option_value: "[no option value]", question_id: question_id })
+    .select();
+
+  console.log(option);
+
+  return option;
+}
+
+export async function deleteOption(id: String) {
+  const supabase = createClient();
+  const res = await supabase.from("options").delete().eq("id", id);
+  console.log(res);
+
+  return res;
 }

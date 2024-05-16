@@ -40,7 +40,7 @@ export default function Navbar({ page }: PageProps) {
           </h1>
         </a>
       </div>
-      <div className="w-1/5 content-center">
+      <div className="w-1/5 content-center max-[850px]:hidden">
         <a href="/myforms">
           <h1
             className={`text-[2em] font-bold text-black m-0 ${
