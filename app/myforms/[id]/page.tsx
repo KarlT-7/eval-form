@@ -16,7 +16,26 @@ export default async function EditPage({
     redirect("./login");
   }
 
-  const {data, error} = await supabase.from("forms").select("*").eq("id", id).single();
+  const { data: form, error: formError } = await supabase
+    .from("forms")
+    .select("*")
+    .eq("id", id)
+    .single();
 
-  return <FormPageComponent form={data}></FormPageComponent>;
+  const { data: responses, error: responseError } = await supabase
+    .from("evaluation_responses")
+    .select(
+      `
+  id,
+  question_id,
+  option_ids,
+  response_text,
+  questions:question_id(content)
+`
+    )
+    .eq("form_id", id);
+
+  return (
+    <FormPageComponent form={form} responses={responses}></FormPageComponent>
+  );
 }

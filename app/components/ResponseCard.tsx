@@ -8,6 +8,7 @@ type QuestionType = Database["public"]["Tables"]["questions"]["Row"];
 
 interface ResponseCardProps {
   key: string;
+  id: string;
   question: QuestionType;
   eval_id: string;
   form_id: string;
@@ -17,6 +18,7 @@ interface ResponseCardProps {
 
 export function ResponseCard({
   key,
+  id,
   question,
   eval_id,
   form_id,
@@ -25,7 +27,6 @@ export function ResponseCard({
   const [textResponse, setTextResponse] = useState("");
   const [options, setOptions] = useState<Array<any>>();
   const [responses, setResponses] = useState<Array<any>>([]);
-  const id = uuidv4();
 
   useEffect(() => {
     const getOptions = async () => {
@@ -129,7 +130,7 @@ export function ResponseCard({
       )}
 
       <input
-        className="text-xl font-bold bg-[#066fba] text-white p-2 rounded m-auto"
+        className="text-xl font-bold bg-[#066fba] text-white p-2 px-4 rounded m-auto"
         type="button"
         onClick={() => {
           handleUpsert();

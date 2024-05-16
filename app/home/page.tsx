@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
+import Footer from "../components/Footer";
 
 export default async function HomePage() {
 
@@ -77,9 +78,7 @@ export default async function HomePage() {
         </div>
       </div>
 
-      <footer className="absolute bottom-0 flex w-full justify-center">
-        <p>&copy; 2024 EvalForm</p>
-      </footer>
+      <Footer></Footer>
     </div>
   );
 }

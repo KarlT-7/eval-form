@@ -5,10 +5,8 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import { redirect } from "next/navigation";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 interface FormSummaryCardProps {
@@ -62,7 +60,7 @@ export default function FormSummaryCard({
           }}
         />
       </div>
-      <div className="w-1/5 gap-4 flex flex row">
+      <div className="w-1/5 gap-2 flex flex-row max-[740px]:hidden">
         <h1 className="text-xl font-bold">Status:</h1>
         <h2
           className={`text-xl font-bold ${
@@ -72,17 +70,17 @@ export default function FormSummaryCard({
           {status}
         </h2>
       </div>
-      <div className="flex flex-row gap-4 items-center">
+      <div className="flex flex-row gap-4 items-center max-[1100px]:hidden">
         <h1 className="text-xl font-bold">{evals}</h1>
         <Image alt="test" src="/tick.png" width={50} height={50} />
       </div>
-      <Image
+      {/* <Image
         alt="qr code"
         src="/qr.png"
         className="m-0"
         width={40}
         height={40}
-      />
+      /> */}
       <div className="flex flex-row gap-4 items-center">
         <input
           className="text-xl font-bold text-[#066fba]"

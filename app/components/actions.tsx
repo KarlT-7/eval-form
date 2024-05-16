@@ -4,6 +4,7 @@ import { createAdmin } from "@/utils/supabase/admin";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
+import QuestionCard from "./QuestionCard";
 
 type FormType = Database["public"]["Tables"]["forms"]["Row"];
 
@@ -148,14 +149,25 @@ export async function updateTitle(id: String, title: String) {
   return update;
 }
 
+export async function updateDescription(id: String, description: String) {
+  const supabase = createClient();
+
+  const update = await supabase
+    .from("forms")
+    .update({ description: description })
+    .eq("id", id);
+  return update;
+}
+
 export async function updateContent(id: String, content: string | null) {
   const supabase = createClient();
   const update = await supabase
     .from("questions")
     .update({ content: content })
-    .eq("id", id).select();
+    .eq("id", id)
+    .select();
 
-    console.log(update);
+  console.log(update);
   return update;
 }
 
@@ -266,5 +278,23 @@ export async function upsertEvalResponse(
 
   console.log(res);
 
+  return res;
+}
+
+export async function updateType(question_id: string, type: string) {
+  const supabase = createClient();
+  const res = await supabase
+    .from("questions")
+    .update({ type: type })
+    .eq("id", question_id);
+  if (!res.error || type == "text") {
+    await supabase.from("options").delete().in("question_id", [question_id]);
+  }
+  return res;
+}
+
+export async function deleteQuestion(question_id: string) {
+  const supabase = createClient();
+  const res = await supabase.from("questions").delete().eq("id", question_id);
   return res;
 }

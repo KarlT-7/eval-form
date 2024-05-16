@@ -14,14 +14,13 @@ interface EditPageComponentProps {
 type FormType = Database["public"]["Tables"]["forms"]["Row"];
 type QuestionType = Database["public"]["Tables"]["questions"]["Row"];
 
-const id = uuidv4()
+const id = uuidv4();
 
 export function EvalComponent({ form, questionData }: EditPageComponentProps) {
   const [evalName, setEvalName] = useState("");
   const [loadQuestions, setLoadQuestions] = useState(false);
 
   const handleEvalUpsert = async () => {
-    
     const upsert = await upsertEval(id, form.id, evalName);
 
     if (upsert.error) {
@@ -32,30 +31,46 @@ export function EvalComponent({ form, questionData }: EditPageComponentProps) {
     }
   };
   return (
-    <div className="flex w-full justify-center items-center p-6">
-      <div className="flex flex-col w-1/3 justify-center items-center m-auto gap-6 max-[850px]:w-full">
-        <input
-          type="text"
-          className="w-full text-xl p-2 bg-white border-solid border-2 rounded"
-          onChange={(e) => {
-            setEvalName(e.target.value);
-          }}
-          placeholder="Enter your name."
-        />
-        <div className="flex w-full items-center justify-center">
+    <div className="flex w-full h-screen justify-center items-center p-6">
+      {form.status == "Active" && (
+        <div className="flex flex-col w-1/3 justify-center items-center m-auto gap-6 max-[850px]:w-full">
           <input
-            className="text-xl font-bold bg-[#066fba] text-white p-2 rounded m-auto"
-            type="button"
-            onClick={handleEvalUpsert}
-            value="Save"
+            type="text"
+            className="w-full text-xl p-2 bg-white border-solid border-2 rounded"
+            onChange={(e) => {
+              setEvalName(e.target.value);
+            }}
+            placeholder="Enter your name."
           />
-        </div>
-        {!loadQuestions && (
-          <h1 className="">(Enter your name to begin evaluation)</h1>
-        )}
+          <div className="flex w-full items-center justify-center">
+            <input
+              className="text-xl font-bold bg-[#066fba] text-white p-2 px-4 rounded m-auto"
+              type="button"
+              onClick={handleEvalUpsert}
+              value="Save"
+            />
+          </div>
+          {!loadQuestions && (
+            <h1 className="">(Enter your name to begin evaluation)</h1>
+          )}
 
-        {loadQuestions && questionData.map((question) => <ResponseCard key={question.id} question={question} eval_id={id} form_id={form.id}></ResponseCard>)}
-      </div>
+          {loadQuestions &&
+            questionData.map((question) => (
+              <ResponseCard
+                key={question.id}
+                id={uuidv4()}
+                question={question}
+                eval_id={id}
+                form_id={form.id}
+              ></ResponseCard>
+            ))}
+        </div>
+      )}
+
+      {form.status == 'Disabled' && 
+      <div>
+        <h1>This form has been disabled.</h1>
+      </div>}
     </div>
   );
 }

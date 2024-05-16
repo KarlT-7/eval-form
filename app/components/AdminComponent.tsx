@@ -56,7 +56,7 @@ export default function AdminComponent({ users }: any) {
 
   return (
     <div className="font-sans bg-white p-0 min-h-full m-0 w-full justify-between">
-      <Navbar page="forms"></Navbar>
+      <Navbar></Navbar>
       <div className="flex flex-col justify-center m-auto items-center p-20 w-3/4 gap-4">
         {pageUsers.map((user: any) => (
           <AdminUserCard

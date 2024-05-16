@@ -22,11 +22,15 @@ export default async function EditPage({
 
   const admin = createAdmin();
 
-  const { data, error } = await admin.auth.admin.listUsers();
-
+  const {
+    data: { users },
+    error,
+  } = await admin.auth.admin.listUsers();
+  
   if (error) {
-    return;
-  } else {
-    return <AdminComponent users={data.users}></AdminComponent>;
+    console.log(error)
+    return <div></div>;
   }
+
+  return <AdminComponent users={users}></AdminComponent>;
 }

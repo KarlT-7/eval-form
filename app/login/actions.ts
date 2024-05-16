@@ -23,7 +23,7 @@ export async function login(email: string, password: string) {
     }
   } else {
     revalidatePath("/", "layout");
-    redirect("/home");
+    redirect("/myforms");
   }
 }
 
@@ -46,7 +46,7 @@ export async function signup(email: string, password: string) {
       
       await supabase.from("profiles").insert({id: res.data.user.id, email: email});
       revalidatePath("/", "layout");
-      redirect("/home");
+      redirect("/myforms");
     }
   }
 }

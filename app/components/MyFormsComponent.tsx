@@ -21,8 +21,6 @@ export default function MyForms(myForms: any) {
   const [forms, setForms] = useState<Array<any>>(myForms.MyForms);
   const [open, setOpen] = useState(false);
 
-  const { Canvas } = useQRCode();
-
   const host = window.location.host
 
   const handleDelete = async (id: String) => {
@@ -60,16 +58,8 @@ export default function MyForms(myForms: any) {
     setOpen(false);
   };
 
-  
-
-  const data = [
-    { id: 1, name: "John Doe", email: "john@example.com" },
-    { id: 2, name: "Jane Smith", email: "jane@example.com" },
-    // Add more data as needed
-  ];
-
   return (
-    <div className="flex flex-col justify-center m-auto items-center p-20 w-3/4 gap-4">
+    <div className="flex flex-col justify-center m-auto items-center p-20 w-2/3 gap-4 max-[1300px]:w-3/4 max-[1000px]:w-full">
       {isLoading && (
         <>
           <style jsx>{`
@@ -124,7 +114,7 @@ export default function MyForms(myForms: any) {
         />
       </div>
 
-      <CsvExportButton data={data} filename={"this file"}></CsvExportButton>
+      
 
       <Dialog
         open={open}

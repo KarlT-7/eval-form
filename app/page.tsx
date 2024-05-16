@@ -10,7 +10,7 @@ export default async function Account() {
   if(!user.data.user){
     redirect('./login')
   } else {
-    redirect('./home')
+    redirect('./myforms')
   }
 
 

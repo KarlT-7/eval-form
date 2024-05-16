@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { redirect, useRouter } from "next/navigation";
 
 interface PageProps {
-  page: string;
+  page?: string;
 }
 
 export default function Navbar({ page }: PageProps) {
@@ -28,11 +28,11 @@ export default function Navbar({ page }: PageProps) {
   }, []);
 
   return (
-    <nav className="flex justify-around flex-row bg-white border-b-2 border-solid border-black py-2 px-0 text-center w-full m-0">
+    <nav className="flex justify-around items-center bg-[#d8d8d8] border-b-2 border-solid border-black py-2 px-4 text-center w-full">
       <div className="w-1/5 content-center">
-        <a href="/home">
+        <a href="/myforms">
           <h1
-            className={`text-[3.5em] font-bold text-black m-0 ${
+            className={`text-[3.5em] font-bold text-black m-0 text-gray-800 hover:text-shadow-lg ${
               page === "home"
                 ? "underline decoration-black decoration-4 underline-offset-4"
                 : ""
@@ -42,30 +42,36 @@ export default function Navbar({ page }: PageProps) {
           </h1>
         </a>
       </div>
-      <div className="w-1/5 content-center max-[850px]:hidden">
+      {/* <div className="w-1/5 content-center max-[850px]:hidden">
         <a href="/myforms">
-          <h1
+          <input
+          type='button'
+          value='My Forms'
+          onClick={() => redirect('./myforms')}
             className={`text-[2em] font-bold text-black m-0 ${
               page === "forms"
                 ? "underline decoration-black decoration-4 underline-offset-4"
                 : ""
             }`}
           >
-            My Forms
-          </h1>
+            
+          </input>
         </a>
-      </div>
+      </div> */}
 
-      <div className="flex flex-row w-1/5 justify-around items-center content-center gap-5">
+      <div className="flex flex-row w-1/6 justify-around">
         {userRole === "admin" && (
-          <a href="/admin">
-            <h1 className="text-[1.5em] font-bold text-[#066fba]">Admin</h1>
-          </a>
+          <div className="text-lg font-bold text-blue-500 bg-transparent border border-blue-500 rounded-full px-4 py-2 transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white">
+            <a href="/admin">
+              <h1 className="font-bold">Admin</h1>
+            </a>
+          </div>
         )}
+
         <input
           type="button"
           value="Sign Out"
-          className="text-[1.5em] font-bold text-[#c70d00]"
+          className="text-lg font-bold text-red-500 bg-transparent border border-red-500 rounded-full px-4 py-2 transition duration-300 ease-in-out hover:bg-red-500 hover:text-white"
           onClick={handleSignOut}
         />
       </div>

@@ -11,6 +11,9 @@ import {
   updateContent,
   updateTitle,
   changeStatus,
+  updateType,
+  deleteQuestion,
+  updateDescription,
 } from "./actions";
 import QuestionCard from "@/app/components/QuestionCard";
 import { Database } from "@/types/supabase";
@@ -37,7 +40,7 @@ export default function EditPageComponent({
   const [questions, setQuestions] = useState<Array<QuestionType>>(questionData);
   const [loading, setLoading] = useState(false);
   const [loadingOptions, setLoadingOptions] = useState(false);
-  const [currentQuestion, setCurrentQuestion] = useState<QuestionType>();
+  const [currentQuestion, setCurrentQuestion] = useState<any>();
   const [newContent, setNewContent] = useState<any>(currentQuestion?.content);
   const [type, setType] = useState(currentQuestion?.type);
   const id = form.id;
@@ -84,6 +87,16 @@ export default function EditPageComponent({
     }
   };
 
+  const handleUpdateDescription = async (id: String, description: String) => {
+    const res = await updateDescription(id, description);
+
+    if (res.error) {
+      toast.error("Error saving description.");
+    } else {
+      toast.success("Description saved.");
+    }
+  };
+
   const handleContentUpdate = async (
     question_id: String,
     question_content: string | null
@@ -118,6 +131,33 @@ export default function EditPageComponent({
     }
   };
 
+  const handleUpdateType = async (
+    question_id: string,
+    type: "fixed" | "multiple" | "text"
+  ) => {
+    const res = await updateType(question_id, type);
+    if (res.error) {
+      toast.error("There was an error changing question type.");
+    } else {
+      if (type == "text") {
+        setCurrentOptions([]);
+      }
+      setType(type);
+    }
+  };
+
+  const handleDeleteQuestion = async (question_id: string) => {
+    const res = await deleteQuestion(question_id);
+
+    if (res.error) {
+      toast.error("There was an issue deleting this question.");
+    } else {
+      setQuestions(questions.filter((question) => question.id != question_id));
+      setCurrentQuestion(null);
+      toast.success("Question deleted successfully.");
+    }
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar page="edit"></Navbar>
@@ -125,9 +165,9 @@ export default function EditPageComponent({
         <div className="flex flex-grow min-h-full overflow-hidden bg-white">
           <div className="flex flex-col w-1/2 min-h-full bg-white border-solid border-r-2 border-black p-4 gap-2">
             <h1 className="text-xl text-black font-bold">Form Title:</h1>
-            <div className="flex flex-row pb-10">
+            <div className="flex flex-row pb-8">
               <input
-                className="w-full text-l p-2 bg-white border-black border-b-solid border-2 rounded rounded-r-none"
+                className="w-full text-l bg-white border-black border-b-solid border-2 rounded rounded-r-none p-2"
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
@@ -143,12 +183,22 @@ export default function EditPageComponent({
 
             <h1 className="text-xl text-black font-bold">Form Description:</h1>
             <textarea
-              className="w-full text-l p-2 bg-white border-black border-solid border-2 rounded mb-4"
+              className="w-full text-l p-2 bg-white border-black border-solid border-2 rounded "
               rows={8}
               placeholder="Put your description here."
               onChange={(e) => setDesc(e.target.value)}
               value={desc}
             />
+            <div className="border-4 text-[25px] bg-[#066fba] text-white border-black w-fit px-2 border-solid rounded-lg self-center align-center mb-10">
+              <input
+                className="text-xl font-bold align-center hover:cursor-pointer"
+                type="button"
+                value="Save Description"
+                onClick={() => {
+                  handleUpdateDescription(form.id, desc);
+                }}
+              />
+            </div>
             <div className="flex flex-row justify-center pb-10">
               <input
                 type="button"
@@ -173,26 +223,27 @@ export default function EditPageComponent({
                 }}
               />
             </div>
-
-            <h1 className="text-xl text-black font-bold">Questions:</h1>
-            <div className="overflow-y-auto">
-              {questions?.length !== 0 &&
-                questions?.map((question) => (
-                  <div key={question.id}>
-                    <QuestionCard
-                      key={question.id}
-                      id={question.id}
-                      content={question.content}
-                      type={question.type}
-                      onClick={() => {
-                        setCurrentQuestion(question);
-                        setNewContent(question.content);
-                        setType(question.type);
-                        getOptions(question.id);
-                      }}
-                    ></QuestionCard>
-                  </div>
-                ))}
+            <div className="flex flex-col w-full justify-center items">
+              <h1 className="text-xl text-black font-bold">Questions:</h1>
+              <div className="overflow-y-auto">
+                {questions?.length !== 0 &&
+                  questions?.map((question) => (
+                    <div key={question.id}>
+                      <QuestionCard
+                        key={question.id}
+                        id={question.id}
+                        content={question.content}
+                        type={question.type}
+                        onClick={() => {
+                          setCurrentQuestion(question);
+                          setNewContent(question.content);
+                          setType(question.type);
+                          getOptions(question.id);
+                        }}
+                      ></QuestionCard>
+                    </div>
+                  ))}
+              </div>
             </div>
 
             {questions?.length == 0 && (
@@ -222,7 +273,7 @@ export default function EditPageComponent({
                       type="button"
                       value="Delete this questions"
                       onClick={() => {
-                        handleCreateOption(currentQuestion.id);
+                        handleDeleteQuestion(currentQuestion.id);
                       }}
                     />
                   </div>
@@ -242,7 +293,7 @@ export default function EditPageComponent({
                     type="button"
                     value="Save"
                     onClick={async () => {
-                      handleContentUpdate(currentQuestion?.id, newContent);
+                      handleContentUpdate(currentQuestion.id, newContent);
                     }}
                   />
                 </div>
@@ -256,7 +307,7 @@ export default function EditPageComponent({
                 transition duration-100 ease-in-out`}
                     value="Fixed"
                     onClick={() => {
-                      setType("fixed");
+                      handleUpdateType(currentQuestion.id, "fixed");
                     }}
                   />
                   <input
@@ -267,7 +318,7 @@ export default function EditPageComponent({
                 transition duration-100 ease-in-out`}
                     value="Multiple Choice"
                     onClick={() => {
-                      setType("multiple");
+                      handleUpdateType(currentQuestion.id, "multiple");
                     }}
                   />
                   <input
@@ -278,7 +329,7 @@ export default function EditPageComponent({
                 transition duration-100 ease-in-out`}
                     value="Text"
                     onClick={() => {
-                      setType("text");
+                      handleUpdateType(currentQuestion.id, "text");
                     }}
                   />
                 </div>
