@@ -25,7 +25,8 @@ export async function getForms() {
 export async function createForm(
   title: String,
   description: String,
-  status: String
+  status: String,
+  host: String
 ) {
   const supabase = createClient();
   const user = await supabase.auth.getUser();
@@ -33,7 +34,7 @@ export async function createForm(
   const id = uuidv4();
   const res = await supabase
     .from("forms")
-    .insert({ id: id, user_id: user_id, title, description, status })
+    .insert({ id: id, user_id: user_id, title, description, status, url: `host/evals/${id}`})
     .select();
   return res;
 }

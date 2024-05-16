@@ -1,5 +1,6 @@
 "use server";
 import { Database } from "@/types/supabase";
+import { createAdmin } from "@/utils/supabase/admin";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
@@ -94,8 +95,6 @@ export async function deleteForm(id: String) {
   return res;
 }
 
-
-
 export async function getFormInfo(id: String): Promise<FormType> {
   const supabase = createClient();
   const { data } = await supabase
@@ -111,7 +110,7 @@ export async function changeStatus(id: string, status: string) {
   const supabase = createClient();
   const stat = await supabase
     .from("forms")
-    .update({status: status})
+    .update({ status: status })
     .eq("id", id);
 
   return stat;
@@ -192,3 +191,81 @@ export async function deleteOption(id: String) {
   return res;
 }
 
+export async function deleteUser(id: string) {
+  const supabase = createClient();
+  const admin = createAdmin();
+
+  const del = await admin.auth.admin.deleteUser(id);
+
+  if (!del.error) {
+    await supabase.from("profiles").delete().eq("id", id);
+  }
+
+  return del;
+}
+
+export async function updateUser(id: string, email: string) {
+  const supabase = createClient();
+  const admin = createAdmin();
+
+  const update = await admin.auth.admin.updateUserById(id, { email: email });
+
+  if (!update.error) {
+    await supabase.from("profiles").update({ email: email }).eq("id", id);
+  }
+
+  return update;
+}
+
+export async function addUser(email: string, password: string) {
+  const supabase = createClient();
+  const admin = createAdmin();
+  const add = await admin.auth.admin.createUser({ email, password });
+  if (!add.error) {
+    await supabase
+      .from("profiles")
+      .insert({ id: add.data.user?.id, email: email });
+  }
+  return add;
+}
+
+export async function upsertEval(
+  id: string,
+  form_id: string,
+  evalName: string
+) {
+  const supabase = createClient();
+  const upsert = await supabase
+    .from("evaluations")
+    .upsert({ id: id, form_id: form_id, name: evalName })
+    .select();
+
+  console.log(upsert);
+  return upsert;
+}
+
+export async function upsertEvalResponse(
+  id: string,
+  evaluation_id: string,
+  question_id: string,
+  form_id: string,
+  options_ids: any[],
+  response_text: string,
+  
+) {
+  const supabase = createClient();
+  const res = supabase
+    .from("evaluation_responses")
+    .upsert({
+      id: id,
+      evaluation_id: evaluation_id,
+      question_id: question_id,
+      form_id: form_id,
+      option_ids: options_ids,
+      response_text: response_text,
+    }).select();
+
+    console.log(res);
+
+  return res;
+}

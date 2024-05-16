@@ -15,13 +15,13 @@ export default function FormPageComponent({ form }: any) {
         <div className="flex w-1/2">
           <div className="flex w-full justify-center items-center p-20">
             <div className="flex w-full justify-between w-full align-content-center mb-20 items-start ">
-              <div className="headtext">
+              <div className="w-8/12">
                 <h1 className="mb-5 text-xl font-bold">{form.title}</h1>
                 <h3>{form.description}</h3>
               </div>
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-4 items-center">
                 <Canvas
-                  text={"https://github.com/bunlong/next-qrcode"}
+                  text={form.url ? form.url : 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'}
                   options={{
                     errorCorrectionLevel: "M",
                     margin: 3,
@@ -33,7 +33,7 @@ export default function FormPageComponent({ form }: any) {
                     },
                   }}
                 />
-                <div className="flex gap-4 px-4">
+                <div className="flex gap-2">
                   <h1 className="text-xl font-bold">Status:</h1>
                   <h1 className={`text-xl font-bold ${form.status == "Active" ? `text-[#2ca02c]` : `text-[#c70d00]`}`}>Active</h1>
                 </div>

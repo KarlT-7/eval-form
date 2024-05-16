@@ -56,7 +56,7 @@ export default function Navbar({ page }: PageProps) {
         </a>
       </div>
 
-      <div className="flex flex-row w-1/4 align-center content-center gap-5">
+      <div className="flex flex-row w-1/5 justify-around align-center content-center gap-5">
         {userRole === "admin" && (
           <input type='button' className="text-[1.5em] font-bold text-[#066fba]" onClick={() => {router.push('../admin')}} value="Admin"/>
         )}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getOptions} from "./actions";
 import { describe } from "node:test";
-import { getFormInfo } from "../edit/[id]/actions";
+import { getFormInfo } from "../edit/actions";
 
 interface QuestionCardProps {
   id: String;

@@ -1,10 +1,9 @@
 import Image from "next/image";
-
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import MyForms from "@/app/components/MyFormsComponent";
-import { getFormInfo, getQuestions } from "./actions";
+import { getFormInfo, getQuestions } from "../actions";
 import EditPageComponent from "@/app/components/EditPageComponent";
 
 export default async function EditPage({
