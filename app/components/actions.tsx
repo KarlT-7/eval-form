@@ -145,18 +145,17 @@ export async function updateTitle(id: String, title: String) {
     .from("forms")
     .update({ title: title })
     .eq("id", id);
-
   return update;
 }
 
 export async function updateContent(id: String, content: string | null) {
   const supabase = createClient();
-
   const update = await supabase
     .from("questions")
     .update({ content: content })
-    .eq("id", id);
+    .eq("id", id).select();
 
+    console.log(update);
   return update;
 }
 
@@ -250,8 +249,7 @@ export async function upsertEvalResponse(
   question_id: string,
   form_id: string,
   options_ids: any[],
-  response_text: string,
-  
+  response_text: string
 ) {
   const supabase = createClient();
   const res = supabase
@@ -263,9 +261,10 @@ export async function upsertEvalResponse(
       form_id: form_id,
       option_ids: options_ids,
       response_text: response_text,
-    }).select();
+    })
+    .select();
 
-    console.log(res);
+  console.log(res);
 
   return res;
 }

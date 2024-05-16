@@ -33,7 +33,7 @@ export default function EditPageComponent({
   const [title, setTitle] = useState(form.title);
   const [desc, setDesc] = useState(form.description);
   const [currentOptions, setCurrentOptions] = useState<Array<any>>();
-  const [status, setStatus] = useState<string>("");
+  const [status, setStatus] = useState<string>(form.status);
   const [questions, setQuestions] = useState<Array<QuestionType>>(questionData);
   const [loading, setLoading] = useState(false);
   const [loadingOptions, setLoadingOptions] = useState(false);
@@ -78,7 +78,6 @@ export default function EditPageComponent({
     const res = await updateTitle(id, title);
 
     if (res.error) {
-      console.log(res.error);
       toast.error("Error saving title.");
     } else {
       toast.success("Title saved.");
@@ -94,7 +93,7 @@ export default function EditPageComponent({
     if (res.error) {
       console.log(res.error);
       toast.error("Error saving content.");
-    } else {
+    } else if (res.data) {
       toast.success("Content saved.");
     }
   };
@@ -120,18 +119,20 @@ export default function EditPageComponent({
   };
 
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <Navbar page="edit"></Navbar>
       {!loading && (
-        <div className="flex flex-row">
-          <div className="flex flex-col w-1/2 min-h-full bg-white border-solid border-2 border-black p-4 gap-4">
-            <div className="flex flex-row">
+        <div className="flex flex-grow min-h-full overflow-hidden bg-white">
+          <div className="flex flex-col w-1/2 min-h-full bg-white border-solid border-r-2 border-black p-4 gap-2">
+            <h1 className="text-xl text-black font-bold">Form Title:</h1>
+            <div className="flex flex-row pb-10">
               <input
                 className="w-full text-l p-2 bg-white border-black border-b-solid border-2 rounded rounded-r-none"
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
+
               <input
                 className="p-2 rounded-r border-black border-solid border-1 bg-[#066fba] font-bold text-l text-white"
                 type="button"
@@ -140,6 +141,7 @@ export default function EditPageComponent({
               />
             </div>
 
+            <h1 className="text-xl text-black font-bold">Form Description:</h1>
             <textarea
               className="w-full text-l p-2 bg-white border-black border-solid border-2 rounded mb-4"
               rows={8}
@@ -147,7 +149,7 @@ export default function EditPageComponent({
               onChange={(e) => setDesc(e.target.value)}
               value={desc}
             />
-            <div className="flex flex-row justify-center">
+            <div className="flex flex-row justify-center pb-10">
               <input
                 type="button"
                 className={`p-2 text-xl font-bold border-2 border-gray-400 rounded-l-lg text-[#2ca02c] ${
@@ -172,25 +174,26 @@ export default function EditPageComponent({
               />
             </div>
 
-            <h1 className="text-xl text-black">Questions:</h1>
-
-            {questions?.length !== 0 &&
-              questions?.map((question) => (
-                <div key={question.id}>
-                  <QuestionCard
-                    key={question.id}
-                    id={question.id}
-                    content={question.content}
-                    type={question.type}
-                    onClick={() => {
-                      setCurrentQuestion(question);
-                      setNewContent(question.content);
-                      setType(question.type);
-                      getOptions(question.id);
-                    }}
-                  ></QuestionCard>
-                </div>
-              ))}
+            <h1 className="text-xl text-black font-bold">Questions:</h1>
+            <div className="overflow-y-auto">
+              {questions?.length !== 0 &&
+                questions?.map((question) => (
+                  <div key={question.id}>
+                    <QuestionCard
+                      key={question.id}
+                      id={question.id}
+                      content={question.content}
+                      type={question.type}
+                      onClick={() => {
+                        setCurrentQuestion(question);
+                        setNewContent(question.content);
+                        setType(question.type);
+                        getOptions(question.id);
+                      }}
+                    ></QuestionCard>
+                  </div>
+                ))}
+            </div>
 
             {questions?.length == 0 && (
               <div>
@@ -209,9 +212,21 @@ export default function EditPageComponent({
               />
             </div>
           </div>
-          <div className="flex flex-col w-1/2 bg-white border-solid border-2 border-black p-4 gap-4">
+          <div className="flex flex-col w-1/2 bg-white border-solid border-l-2 border-black p-4 gap-4">
             {currentQuestion && (
               <div className="p-6">
+                <div className="flex w-full justify-center">
+                  <div className="border-4 text-[25px] bg-[#c70d00] text-white border-black w-fit px-2 border-solid rounded-lg self-center align-center">
+                    <input
+                      className="text-xl font-bold align-center hover:cursor-pointer"
+                      type="button"
+                      value="Delete this questions"
+                      onClick={() => {
+                        handleCreateOption(currentQuestion.id);
+                      }}
+                    />
+                  </div>
+                </div>
                 <h1 className="text-xl text-black py-2">Question Content:</h1>
                 <div className="flex flex-row">
                   <input
