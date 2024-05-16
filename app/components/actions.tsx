@@ -50,7 +50,7 @@ export async function getOptions(id: String) {
   };
 }
 
-export async function updateValue(id: String, value: String) {
+export async function updateValue(id: string, value: string) {
   const supabase = createClient();
 
   const update = await supabase

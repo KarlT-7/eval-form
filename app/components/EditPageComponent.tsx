@@ -19,6 +19,7 @@ import OptionBar from "@/app/components/OptionBar";
 
 type FormType = Database["public"]["Tables"]["forms"]["Row"];
 type QuestionType = Database["public"]["Tables"]["questions"]["Row"];
+type OptionType = Database["public"]["Tables"]["options"]["Row"];
 
 interface EditPageComponentProps {
   form: FormType;
@@ -299,7 +300,7 @@ export default function EditPageComponent({
 
                     {currentOptions?.length != 0 && (
                       <div>
-                        {currentOptions?.map((option) => (
+                        {currentOptions?.map((option: OptionType) => (
                           <div key={option.id} className="py-1">
                             <OptionBar
                               option={option}

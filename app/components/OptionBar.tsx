@@ -11,7 +11,7 @@ interface OptionBarProps {
   }
 
 export default function OptionBar({option, onDelete}: OptionBarProps) {
-    const [value, setValue] = useState<string>(option.option_value);
+    const [value, setValue] = useState(option.option_value);
 
     const handleUpdateOptionValue = async () => {
         const res = await updateValue(option.id, value);
