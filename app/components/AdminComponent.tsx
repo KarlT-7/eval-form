@@ -1,8 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
+import {useState } from "react";
 import Navbar from "./Navbar";
-import FormSummaryCard from "./FormSummaryCard";
-import { createForm, deleteForm, getForms } from "../myforms/actions";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -10,9 +8,10 @@ import DialogContent from "@mui/material/DialogContent";
 import toast from "react-hot-toast";
 import AdminUserCard from "./AdminUserCard";
 import { addUser, deleteUser } from "./actions";
+import Footer from "./Footer";
 
 export default function AdminComponent({ users }: any) {
-    console.log(users)
+  console.log(users);
   const [pageUsers, setPageUsers] = useState<Array<any>>(users);
   const [open, setOpen] = useState(false);
   const [newEmail, setNewEmail] = useState("");
@@ -25,7 +24,7 @@ export default function AdminComponent({ users }: any) {
     if (add.error) {
       toast.error("There was a problem creating user");
     } else {
-        toast.success('User successfully create.')
+      toast.success("User successfully create.");
       setPageUsers(pageUsers.concat(add.data.user));
     }
   };
@@ -116,6 +115,7 @@ export default function AdminComponent({ users }: any) {
           </Button>
         </DialogActions>
       </Dialog>
+      <Footer></Footer>
     </div>
   );
 }

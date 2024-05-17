@@ -7,6 +7,7 @@ interface CsvExportButtonProps {
   filename: string;
 }
 
+//this component returns a button which allows users to download evaluation info in csv form
 const CsvExportButton: React.FC<CsvExportButtonProps> = ({
   data,
   filename,

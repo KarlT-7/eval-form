@@ -24,7 +24,7 @@ export default function LoginPage() {
     try {
       setIsLoading(true);
       await signup(email, password);
-      // Handle successful login (e.g., redirect)
+      // Handle successful signup (e.g., redirect)
     } catch (error) {
       toast.error("there was a problem");
       setIsLoading(false);

@@ -26,8 +26,9 @@ export default function AdminUserCard({ user, onDelete }: AdminUserCardProps) {
 
   const date = `${day}-${month}-${year}`;
 
+  //handler to update user's information(email)
   const handleUpdateUser = async () => {
-    const update = await updateUser(user.id, user.email);
+    const update = await updateUser(user.id, newEmail);
 
     if (update.error) {
       toast.error("There was a problem creating user");

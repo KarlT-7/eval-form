@@ -1,13 +1,11 @@
 "use client";
 import Navbar from "@/app/components/Navbar";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   addOption,
   addQuestion,
   deleteOption,
   fetchOptions,
-  getFormInfo,
-  getQuestions,
   updateContent,
   updateTitle,
   changeStatus,
@@ -45,6 +43,7 @@ export default function EditPageComponent({
   const [type, setType] = useState(currentQuestion?.type);
   const id = form.id;
 
+  //handler for status update
   const handleStatusChange = async (status: string) => {
     const res = await changeStatus(id, status);
 
@@ -56,6 +55,7 @@ export default function EditPageComponent({
     }
   };
 
+  //handler for question creation
   const handleCreateQuestion = async () => {
     const res = await addQuestion(id);
 
@@ -66,6 +66,7 @@ export default function EditPageComponent({
     }
   };
 
+  //handler retirving options upon question selection
   const getOptions = async (id: String) => {
     setLoadingOptions(true);
     const res = await fetchOptions(id);
@@ -77,6 +78,7 @@ export default function EditPageComponent({
     setLoadingOptions(false);
   };
 
+  //handler for form title updates
   const handleTitleUpdate = async (id: String, title: String) => {
     const res = await updateTitle(id, title);
 
@@ -87,6 +89,7 @@ export default function EditPageComponent({
     }
   };
 
+  //handler for form decription updates
   const handleUpdateDescription = async (id: String, description: String) => {
     const res = await updateDescription(id, description);
 
@@ -97,6 +100,7 @@ export default function EditPageComponent({
     }
   };
 
+  //handler for question content updates
   const handleContentUpdate = async (
     question_id: String,
     question_content: string | null
@@ -111,26 +115,31 @@ export default function EditPageComponent({
     }
   };
 
+  //handler for option creation
   const handleCreateOption = async (question_id: String) => {
     const res = await addOption(question_id);
 
     if (res.error) {
       toast.error("There was an error creating option.");
     } else if (res.data) {
+      //add option to useState after serversive success
       setCurrentOptions(currentOptions?.concat(res.data));
     }
   };
 
+  //handler for question deletion
   const handleDeleteOption = async (id: String) => {
     const res = await deleteOption(id);
     if (res.error) {
       toast.error("There was an error deleting this option.");
     } else {
+      //adjust selected options client side after successful server operation
       setCurrentOptions(currentOptions?.filter((option) => option.id != id));
       toast.success("Option successfully deleted.");
     }
   };
 
+  //handler for updating form type
   const handleUpdateType = async (
     question_id: string,
     type: "fixed" | "multiple" | "text"
@@ -140,18 +149,21 @@ export default function EditPageComponent({
       toast.error("There was an error changing question type.");
     } else {
       if (type == "text") {
+        //adjust useState when status is successfully changed to text
         setCurrentOptions([]);
       }
       setType(type);
     }
   };
 
+  //handler for question deletion
   const handleDeleteQuestion = async (question_id: string) => {
     const res = await deleteQuestion(question_id);
 
     if (res.error) {
       toast.error("There was an issue deleting this question.");
     } else {
+      //adjust useStates upon server success
       setQuestions(questions.filter((question) => question.id != question_id));
       setCurrentQuestion(null);
       toast.success("Question deleted successfully.");
@@ -252,7 +264,7 @@ export default function EditPageComponent({
               </div>
             )}
 
-            <div className="border-4 text-[25px] bg-[#2ca02c] text-white border-black w-fit px-2 border-solid rounded-lg self-center align-center">
+            <div className="border-4 text-[25px] bg-[#2ca02c] text-white w-fit border-black px-2 border-solid rounded-lg self-center align-center">
               <input
                 className="text-xl font-bold align-center hover:cursor-pointer"
                 type="button"

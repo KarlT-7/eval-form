@@ -1,9 +1,5 @@
-import FormPageComponent from "@/app/components/FormPageComponent";
-import { Database } from "@/types/supabase";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import toast from "react-hot-toast";
-import AdminUserCard from "../components/AdminUserCard";
 import { createAdmin } from "@/utils/supabase/admin";
 import AdminComponent from "../components/AdminComponent";
 

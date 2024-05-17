@@ -1,21 +1,20 @@
 "use client";
 import { useEffect, useState } from "react";
 import { checkAdmin, signOut } from "./actions";
-import toast from "react-hot-toast";
-import { redirect, useRouter } from "next/navigation";
 
 interface PageProps {
   page?: string;
 }
 
 export default function Navbar({ page }: PageProps) {
-  const router = useRouter();
   const [userRole, setUserRole] = useState<string | null>(null);
 
+  //handler for sign out button
   const handleSignOut = async () => {
     await signOut();
   };
 
+  //check user's role on render
   useEffect(() => {
     const fetchData = async () => {
       const role = await checkAdmin();
@@ -28,6 +27,7 @@ export default function Navbar({ page }: PageProps) {
   }, []);
 
   return (
+    
     <nav className="flex justify-around items-center bg-[#d8d8d8] border-b-2 border-solid border-black py-2 px-4 text-center w-full">
       <div className="w-1/5 content-center">
         <a href="/myforms">
@@ -42,22 +42,6 @@ export default function Navbar({ page }: PageProps) {
           </h1>
         </a>
       </div>
-      {/* <div className="w-1/5 content-center max-[850px]:hidden">
-        <a href="/myforms">
-          <input
-          type='button'
-          value='My Forms'
-          onClick={() => redirect('./myforms')}
-            className={`text-[2em] font-bold text-black m-0 ${
-              page === "forms"
-                ? "underline decoration-black decoration-4 underline-offset-4"
-                : ""
-            }`}
-          >
-            
-          </input>
-        </a>
-      </div> */}
 
       <div className="flex flex-row w-1/6 justify-around">
         {userRole === "admin" && (

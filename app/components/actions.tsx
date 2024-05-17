@@ -4,10 +4,8 @@ import { createAdmin } from "@/utils/supabase/admin";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
-import QuestionCard from "./QuestionCard";
 
-type FormType = Database["public"]["Tables"]["forms"]["Row"];
-
+//backend call for retrieving the number of evaluations belonging to a certain form
 export async function getEvals(id: String) {
   const supabase = createClient();
   const res = await supabase.from("evaluations").select("*").eq("form_id", id);
@@ -15,6 +13,7 @@ export async function getEvals(id: String) {
   return res.data?.length;
 }
 
+//backend call for calling admin
 export async function checkAdmin(): Promise<string> {
   const supabase = createClient();
   const user = await supabase.auth.getUser();
@@ -32,6 +31,7 @@ export async function checkAdmin(): Promise<string> {
   return "";
 }
 
+//backend call for logging out
 export async function signOut() {
   const supabase = createClient();
   const res = await supabase.auth.signOut();
@@ -40,6 +40,7 @@ export async function signOut() {
   }
 }
 
+//backend call for retrieving a list of options belonging to a given question
 export async function getOptions(id: String) {
   const supabase = createClient();
   const options = await supabase
@@ -48,10 +49,11 @@ export async function getOptions(id: String) {
     .eq("question_id", id);
 
   return {
-    options: [],
+    options: [options],
   };
 }
 
+//backend call for updating an option value
 export async function updateValue(id: string, value: string) {
   const supabase = createClient();
 
@@ -63,6 +65,7 @@ export async function updateValue(id: string, value: string) {
   return update;
 }
 
+//backend call for retrieving a list of forms from a given user id
 export async function getForms() {
   const supabase = createClient();
   const user = await supabase.auth.getUser();
@@ -74,39 +77,15 @@ export async function getForms() {
   return res;
 }
 
-export async function createForm(
-  title: String,
-  description: String,
-  status: String
-) {
-  const supabase = createClient();
-  const user = await supabase.auth.getUser();
-  const user_id = user.data.user?.id;
-  const id = uuidv4();
-  const res = await supabase
-    .from("forms")
-    .insert({ id: id, user_id: user_id, title, description, status })
-    .select();
-  return res;
-}
-
+//backend call for deleting a form
 export async function deleteForm(id: String) {
   const supabase = createClient();
   const res = await supabase.from("forms").delete().eq("id", id);
   return res;
 }
 
-export async function getFormInfo(id: String): Promise<FormType> {
-  const supabase = createClient();
-  const { data } = await supabase
-    .from("forms")
-    .select("*")
-    .eq("id", id)
-    .single();
 
-  return data;
-}
-
+//backend call for updating a form's status
 export async function changeStatus(id: string, status: string) {
   const supabase = createClient();
   const stat = await supabase
@@ -117,6 +96,7 @@ export async function changeStatus(id: string, status: string) {
   return stat;
 }
 
+//backend call for retrieving questions for a given form
 export async function getQuestions(id: String) {
   const supabase = createClient();
 
@@ -128,6 +108,7 @@ export async function getQuestions(id: String) {
   return questions;
 }
 
+//backend call to create a question
 export async function addQuestion(id: string) {
   const supabase = createClient();
 
@@ -139,6 +120,7 @@ export async function addQuestion(id: string) {
   return question;
 }
 
+//backend call to update form title
 export async function updateTitle(id: String, title: String) {
   const supabase = createClient();
 
@@ -149,6 +131,7 @@ export async function updateTitle(id: String, title: String) {
   return update;
 }
 
+//backend call to update form description
 export async function updateDescription(id: String, description: String) {
   const supabase = createClient();
 
@@ -159,6 +142,7 @@ export async function updateDescription(id: String, description: String) {
   return update;
 }
 
+//backend call for updating question content for a given question
 export async function updateContent(id: String, content: string | null) {
   const supabase = createClient();
   const update = await supabase
@@ -171,6 +155,7 @@ export async function updateContent(id: String, content: string | null) {
   return update;
 }
 
+//backend call for retrieving a set of options belonging to a certain question
 export async function fetchOptions(question_id: String) {
   const supabase = createClient();
   const options = await supabase
@@ -181,6 +166,7 @@ export async function fetchOptions(question_id: String) {
   return options;
 }
 
+//backend call for creating an option on a given question
 export async function addOption(question_id: String) {
   const supabase = createClient();
 
@@ -194,6 +180,7 @@ export async function addOption(question_id: String) {
   return option;
 }
 
+//backend call for deleting a given option
 export async function deleteOption(id: String) {
   const supabase = createClient();
   const res = await supabase.from("options").delete().eq("id", id);
@@ -202,6 +189,7 @@ export async function deleteOption(id: String) {
   return res;
 }
 
+//backend call for removing a use from auth and profile tables
 export async function deleteUser(id: string) {
   const supabase = createClient();
   const admin = createAdmin();
@@ -215,6 +203,7 @@ export async function deleteUser(id: string) {
   return del;
 }
 
+//backend call for updating a user's information
 export async function updateUser(id: string, email: string) {
   const supabase = createClient();
   const admin = createAdmin();
@@ -228,6 +217,7 @@ export async function updateUser(id: string, email: string) {
   return update;
 }
 
+//backend call for creating a new user
 export async function addUser(email: string, password: string) {
   const supabase = createClient();
   const admin = createAdmin();
@@ -240,6 +230,7 @@ export async function addUser(email: string, password: string) {
   return add;
 }
 
+//backend call for updating/inserting an evaluation
 export async function upsertEval(
   id: string,
   form_id: string,
@@ -255,6 +246,25 @@ export async function upsertEval(
   return upsert;
 }
 
+//backend call for creating a form from attributes
+export async function createForm(
+  title: String,
+  description: String,
+  status: String,
+  host: String
+) {
+  const supabase = createClient();
+  const user = await supabase.auth.getUser();
+  const user_id = user.data.user?.id;
+  const id = uuidv4();
+  const res = await supabase
+    .from("forms")
+    .insert({ id: id, user_id: user_id, title, description, status, url: `${host}/evals/${id}`})
+    .select();
+  return res;
+}
+
+//backend call for inserting/updating evaluation responses
 export async function upsertEvalResponse(
   id: string,
   evaluation_id: string,
@@ -281,6 +291,7 @@ export async function upsertEvalResponse(
   return res;
 }
 
+//backend call for updating the type for a given form
 export async function updateType(question_id: string, type: string) {
   const supabase = createClient();
   const res = await supabase
@@ -293,6 +304,7 @@ export async function updateType(question_id: string, type: string) {
   return res;
 }
 
+//backend call for deleting a question
 export async function deleteQuestion(question_id: string) {
   const supabase = createClient();
   const res = await supabase.from("questions").delete().eq("id", question_id);
