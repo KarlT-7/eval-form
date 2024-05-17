@@ -15,6 +15,7 @@ export default function LoginPage() {
       await login(email, password);
       // Handle successful login (e.g., redirect)
     } catch (error) {
+
       toast.error("there was a problem");
       setIsLoading(false);
     }

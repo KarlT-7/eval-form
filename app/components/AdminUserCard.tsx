@@ -51,7 +51,7 @@ export default function AdminUserCard({ user, onDelete }: AdminUserCardProps) {
 
       <div className="flex flex-row gap-4 items-center">
         <input
-          className="text-xl font-bold text-[#066fba]"
+          className="text-xl font-bold text-[#066fba] hover:cursor-pointer"
           type="button"
           value="Edit"
           onClick={() => {
@@ -60,7 +60,7 @@ export default function AdminUserCard({ user, onDelete }: AdminUserCardProps) {
         />
 
         <input
-          className="text-xl font-bold text-[#c70d00]"
+          className="text-xl font-bold text-[#c70d00] hover:cursor-pointer"
           type="button"
           value="Delete"
           onClick={() => {

@@ -17,6 +17,7 @@ export async function login(email: string, password: string) {
 
   if (res.error) {
     if (res.error.message === "Invalid login credentials") {
+      console.log(res.error.message)
       throw new Error("Invalid login credentials.");
     } else {
       throw new Error("An error occurred, please try again.");
@@ -40,6 +41,7 @@ export async function signup(email: string, password: string) {
   const res = await supabase.auth.signUp(data);
 
   if (res.error) {
+    console.log(res.error.message)
     throw new Error("An error occured, please try again.");
   } else {
     if (res.data.user) {

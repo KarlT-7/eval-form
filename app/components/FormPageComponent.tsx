@@ -18,14 +18,12 @@ export default function FormPageComponent({
 }: FormPageComponentProps) {
   const { Canvas } = useQRCode();
 
-  console.log(responses);
-
   return (
     <div className="font-sans bg-white p-0 min-h-full m-0 w-full justify-between">
       <Navbar page="forms"></Navbar>
 
       <div className="flex w-full items-center justify-center">
-        <div className="flex flex-col w-1/2 justify-center">
+        <div className="flex flex-col w-1/2 justify-center max-[1570px]:w-2/3 max-[1200px]:w-full">
           <div className="flex flex-col w-full justify-center items-center p-20">
             <div className="flex w-full justify-between w-full align-content-center mb-20 items-start ">
               <div className="w-8/12">

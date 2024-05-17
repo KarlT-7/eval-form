@@ -17,7 +17,6 @@ export default function OptionBar({option, onDelete}: OptionBarProps) {
         const res = await updateValue(option.id, value);
 
         if (res.error) {
-            console.log(res.error);
             toast.error("Error saving value.");
           } else {
             toast.success("Value saved.");

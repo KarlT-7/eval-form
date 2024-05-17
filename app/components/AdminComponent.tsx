@@ -1,5 +1,5 @@
 "use client";
-import {useState } from "react";
+import { useState } from "react";
 import Navbar from "./Navbar";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -7,26 +7,21 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import toast from "react-hot-toast";
 import AdminUserCard from "./AdminUserCard";
-import { addUser, deleteUser } from "./actions";
+import { createUser, deleteUser } from "./actions";
 import Footer from "./Footer";
+import { signup } from "../login/actions";
 
 export default function AdminComponent({ users }: any) {
-  console.log(users);
   const [pageUsers, setPageUsers] = useState<Array<any>>(users);
   const [open, setOpen] = useState(false);
   const [newEmail, setNewEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
 
   const handleCreate = async () => {
-    const add = await addUser(newEmail, newPassword);
 
-    // Handle successful login (e.g., redirect)
-    if (add.error) {
-      toast.error("There was a problem creating user");
-    } else {
-      toast.success("User successfully create.");
-      setPageUsers(pageUsers.concat(add.data.user));
-    }
+    const res = await createUser(newEmail, newPassword);
+
+    console.log(res)
   };
 
   const handleDelete = async (id: string) => {
@@ -56,7 +51,7 @@ export default function AdminComponent({ users }: any) {
   return (
     <div className="font-sans bg-white p-0 min-h-full m-0 w-full justify-between">
       <Navbar></Navbar>
-      <div className="flex flex-col justify-center m-auto items-center p-20 w-3/4 gap-4">
+      <div className="flex flex-col justify-center m-auto items-center py-20 px-8 w-1/2 max-[680px]:w-full gap-4">
         {pageUsers.map((user: any) => (
           <AdminUserCard
             key={user.id}
@@ -91,8 +86,8 @@ export default function AdminComponent({ users }: any) {
           ></input>
           <input
             className="w-full text-l p-2 bg-white border-solid border-2 rounded mb-4"
-            type="text"
-            placeholder="Put your description here."
+            type="password"
+            placeholder="Put new password here."
             onChange={(e) => setNewPassword(e.target.value)}
           ></input>
         </DialogContent>

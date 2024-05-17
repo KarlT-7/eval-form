@@ -36,7 +36,6 @@ export default function MyForms(myForms: any) {
     const res = await createForm(title, description, status, host);
 
     if (res.error) {
-      console.log(res.error.message);
       toast.error("There was a problem creating this form.");
     } else if (res.data) {
       setForms(forms.concat(res.data));

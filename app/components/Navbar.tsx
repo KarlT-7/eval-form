@@ -29,7 +29,7 @@ export default function Navbar({ page }: PageProps) {
   return (
     
     <nav className="flex justify-around items-center bg-[#d8d8d8] border-b-2 border-solid border-black py-2 px-4 text-center w-full">
-      <div className="w-1/5 content-center">
+      <div className="w-1/6 content-center">
         <a href="/myforms">
           <h1
             className={`text-[3.5em] font-bold text-black m-0 text-gray-800 hover:text-shadow-lg underline-animation ${
@@ -43,7 +43,7 @@ export default function Navbar({ page }: PageProps) {
         </a>
       </div>
 
-      <div className="flex flex-row w-1/6 justify-around">
+      <div className="flex flex-row w-1/6 justify-around gap-4">
         {userRole === "admin" && (
           <div className="text-lg font-bold text-blue-500 bg-transparent border border-blue-500 rounded-full px-4 py-2 transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white">
             <a href="/admin">
@@ -55,7 +55,7 @@ export default function Navbar({ page }: PageProps) {
         <input
           type="button"
           value="Sign Out"
-          className="text-lg font-bold text-red-500 bg-transparent border border-red-500 rounded-full px-4 py-2 transition duration-300 ease-in-out hover:bg-red-500 hover:text-white"
+          className="text-lg font-bold text-red-500 bg-transparent border border-red-500 rounded-full px-4 py-2 transition duration-300 ease-in-out hover:cursor-pointer hover:bg-red-500 hover:text-white"
           onClick={handleSignOut}
         />
       </div>

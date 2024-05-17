@@ -84,7 +84,6 @@ export async function deleteForm(id: String) {
   return res;
 }
 
-
 //backend call for updating a form's status
 export async function changeStatus(id: string, status: string) {
   const supabase = createClient();
@@ -151,7 +150,6 @@ export async function updateContent(id: String, content: string | null) {
     .eq("id", id)
     .select();
 
-  console.log(update);
   return update;
 }
 
@@ -175,8 +173,6 @@ export async function addOption(question_id: String) {
     .insert({ option_value: "[no option value]", question_id: question_id })
     .select();
 
-  console.log(option);
-
   return option;
 }
 
@@ -184,7 +180,6 @@ export async function addOption(question_id: String) {
 export async function deleteOption(id: String) {
   const supabase = createClient();
   const res = await supabase.from("options").delete().eq("id", id);
-  console.log(res);
 
   return res;
 }
@@ -218,16 +213,22 @@ export async function updateUser(id: string, email: string) {
 }
 
 //backend call for creating a new user
-export async function addUser(email: string, password: string) {
+export async function createUser(email: string, password: string) {
+  
   const supabase = createClient();
-  const admin = createAdmin();
-  const add = await admin.auth.admin.createUser({ email, password });
-  if (!add.error) {
-    await supabase
-      .from("profiles")
-      .insert({ id: add.data.user?.id, email: email });
+  const data = {
+    email: email,
+    password: password,
+  };
+  const res = await supabase.auth.signUp(data);
+  if (!res.error) {
+    if (res.data.user) {
+      await supabase
+        .from("profiles")
+        .insert({ id: res.data.user.id, email: email });
+    }
   }
-  return add;
+  return res;
 }
 
 //backend call for updating/inserting an evaluation
@@ -241,8 +242,6 @@ export async function upsertEval(
     .from("evaluations")
     .upsert({ id: id, form_id: form_id, name: evalName })
     .select();
-
-  console.log(upsert);
   return upsert;
 }
 
@@ -259,7 +258,14 @@ export async function createForm(
   const id = uuidv4();
   const res = await supabase
     .from("forms")
-    .insert({ id: id, user_id: user_id, title, description, status, url: `${host}/evals/${id}`})
+    .insert({
+      id: id,
+      user_id: user_id,
+      title,
+      description,
+      status,
+      url: `https://${host}/evals/${id}`,
+    })
     .select();
   return res;
 }
@@ -285,8 +291,6 @@ export async function upsertEvalResponse(
       response_text: response_text,
     })
     .select();
-
-  console.log(res);
 
   return res;
 }

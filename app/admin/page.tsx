@@ -24,7 +24,6 @@ export default async function EditPage({
   } = await admin.auth.admin.listUsers();
   
   if (error) {
-    console.log(error)
     return <div></div>;
   }
 

@@ -53,7 +53,7 @@ export default function FormSummaryCard({
     >
       <div className="w-1/5">
         <input
-          className="text-xl font-bold"
+          className="text-xl font-bold hover:cursor-pointer"
           type="button"
           value={name}
           onClick={() => {
@@ -75,16 +75,10 @@ export default function FormSummaryCard({
         <h1 className="text-xl font-bold">{evals}</h1>
         <Image alt="test" src="/tick.png" width={50} height={50} />
       </div>
-      {/* <Image
-        alt="qr code"
-        src="/qr.png"
-        className="m-0"
-        width={40}
-        height={40}
-      /> */}
+
       <div className="flex flex-row gap-4 items-center">
         <input
-          className="text-xl font-bold text-[#066fba]"
+          className="text-xl font-bold text-[#066fba] hover:cursor-pointer"
           type="button"
           value="Edit"
           onClick={() => {
@@ -92,7 +86,7 @@ export default function FormSummaryCard({
           }}
         />
         <input
-          className="text-xl font-bold text-[#c70d00]"
+          className="text-xl font-bold text-[#c70d00] hover:cursor-pointer"
           type="button"
           onClick={handleClickOpen}
           value="Delete"

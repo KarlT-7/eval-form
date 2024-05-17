@@ -44,7 +44,7 @@ export function EvalComponent({ form, questionData }: EditPageComponentProps) {
           />
           <div className="flex w-full items-center justify-center">
             <input
-              className="text-xl font-bold bg-[#066fba] text-white p-2 px-4 rounded m-auto"
+              className="text-xl font-bold bg-[#066fba] text-white p-2 px-4 rounded m-auto "
               type="button"
               onClick={() => {handleEvalUpsert()}}
               value="Save"

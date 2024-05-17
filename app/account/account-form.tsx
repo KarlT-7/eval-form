@@ -25,10 +25,7 @@ export default function AccountForm({ user }: { user: User | null }) {
         .select("*")
         .eq("id", user?.id);
 
-      console.log(data);
-
       if (error && status !== 406) {
-        console.log(error);
         throw error;
       }
     } catch (error) {

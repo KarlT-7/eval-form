@@ -21,7 +21,6 @@ export function ResponseCard({
   eval_id,
   form_id,
 }: ResponseCardProps) {
-  console.log(question);
   const [textResponse, setTextResponse] = useState("");
   const [options, setOptions] = useState<Array<any>>([]);
   const [responses, setResponses] = useState<Array<any>>([]);
@@ -149,7 +148,6 @@ export function ResponseCard({
                           );
                         }
                       }
-                      console.log(responses);
                     }}
                   />
                 </div>

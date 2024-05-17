@@ -108,7 +108,6 @@ export default function EditPageComponent({
     const res = await updateContent(question_id, question_content);
 
     if (res.error) {
-      console.log(res.error);
       toast.error("Error saving content.");
     } else if (res.data) {
       toast.success("Content saved.");
