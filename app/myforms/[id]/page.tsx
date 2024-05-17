@@ -27,7 +27,6 @@ export default async function EditPage({
     .select(
       `
   id,
-  question_id,
   option_ids,
   response_text,
   questions:question_id(content)

@@ -32,7 +32,7 @@ export default function Navbar({ page }: PageProps) {
       <div className="w-1/5 content-center">
         <a href="/myforms">
           <h1
-            className={`text-[3.5em] font-bold text-black m-0 text-gray-800 hover:text-shadow-lg ${
+            className={`text-[3.5em] font-bold text-black m-0 text-gray-800 hover:text-shadow-lg underline-animation ${
               page === "home"
                 ? "underline decoration-black decoration-4 underline-offset-4"
                 : ""

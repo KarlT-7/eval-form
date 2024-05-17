@@ -31,7 +31,7 @@ export function EvalComponent({ form, questionData }: EditPageComponentProps) {
     }
   };
   return (
-    <div className="flex w-full h-screen justify-center items-center p-6">
+    <div className="flex w-full h-screen justify-center items-center p-2">
       {form.status == "Active" && (
         <div className="flex flex-col w-1/3 justify-center items-center m-auto gap-6 max-[850px]:w-full">
           <input
@@ -46,7 +46,7 @@ export function EvalComponent({ form, questionData }: EditPageComponentProps) {
             <input
               className="text-xl font-bold bg-[#066fba] text-white p-2 px-4 rounded m-auto"
               type="button"
-              onClick={handleEvalUpsert}
+              onClick={() => {handleEvalUpsert()}}
               value="Save"
             />
           </div>

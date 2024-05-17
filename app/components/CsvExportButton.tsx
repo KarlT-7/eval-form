@@ -1,8 +1,9 @@
 import React from "react";
 import json2csv from "json2csv";
+import toast from "react-hot-toast";
 
 interface CsvExportButtonProps {
-  data: any[]; // Your data array
+  data: any[];
   filename: string;
 }
 
@@ -11,16 +12,20 @@ const CsvExportButton: React.FC<CsvExportButtonProps> = ({
   filename,
 }) => {
   const handleExport = () => {
-    const csv = json2csv.parse(data);
-    const blob = new Blob([csv], { type: "text/csv" });
-    const url = URL.createObjectURL(blob);
+    if (data.length != 0) {
+      const csv = json2csv.parse(data);
+      const blob = new Blob([csv], { type: "text/csv" });
+      const url = URL.createObjectURL(blob);
 
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `${filename}.csv`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${filename}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } else {
+        toast.error("There are no responses yet.")
+    }
   };
 
   return (

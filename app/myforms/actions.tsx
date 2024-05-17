@@ -34,7 +34,7 @@ export async function createForm(
   const id = uuidv4();
   const res = await supabase
     .from("forms")
-    .insert({ id: id, user_id: user_id, title, description, status, url: `host/evals/${id}`})
+    .insert({ id: id, user_id: user_id, title, description, status, url: `${host}/evals/${id}`})
     .select();
   return res;
 }
